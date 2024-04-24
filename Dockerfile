@@ -71,7 +71,10 @@ COPY CMakeLists.txt package.xml $BRIDGE_WS/src/ros1_bridge/
 WORKDIR $BRIDGE_WS
 RUN . $ROS1_WS/devel/setup.sh && \
     . $ROS2_WS/install/setup.sh && \
-    colcon build --cmake-force-configure --cmake-args -DCMAKE_BUILD_TYPE=Release
+    BUILD_WORKERS=$(($(nproc) - 2)) && \
+    colcon build --executor parallel --parallel-workers $BUILD_WORKERS \
+    --cmake-force-configure --cmake-args -DCMAKE_BUILD_TYPE=Release
+
 
 # Add command to docker entrypoint to source newly compiled code when running docker container
 RUN sed --in-place --expression \
