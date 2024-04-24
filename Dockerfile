@@ -25,6 +25,10 @@ RUN apt-get update \
         ros-dev-tools \
     && rm -rf /var/lib/apt/lists/*
 
+# Setup ROS1 environment variables [For AV server]
+ENV ROS_MASTER_URI=http://172.31.0.1:11311/
+ENV ROS_IP=172.31.0.1
+
 # Setup ROS1 msgs workspace folder
 ENV ROS1_WS /opt/ros1_msgs_ws
 
