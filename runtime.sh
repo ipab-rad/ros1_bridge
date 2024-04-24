@@ -17,6 +17,6 @@ DOCKER_BUILDKIT=1 docker build \
 -f Dockerfile --target runtime .
 
 # Run docker image without volumes
-docker run -it --rm --net host \
--v /dev/shm:/dev/shm \
-av_bridge_noetic_galactic $CMD
+docker run -it --rm --net host --privileged \
+    -v /dev/shm:/dev/shm \
+    av_bridge_noetic_galactic $CMD
