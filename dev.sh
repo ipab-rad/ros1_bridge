@@ -5,8 +5,8 @@
 
 # Build docker image up to dev stage
 DOCKER_BUILDKIT=1 docker build \
--t av_bridge_noetic_galactic \
--f Dockerfile --target dev .
+    -t av_bridge_noetic_galactic \
+    -f Dockerfile --target dev .
 
 # Run docker image with local code volumes for development
 docker run -it --rm --net host --privileged \

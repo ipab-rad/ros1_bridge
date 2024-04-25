@@ -89,9 +89,9 @@ CMD ["ros2", "run", "ros1_bridge", "dynamic_bridge"]
 FROM base AS dev
 
 # Install basic dev tools (And clean apt cache afterwards)
-RUN apt update \
+RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
-        apt -y --quiet --no-install-recommends install \
+        apt-get -y --quiet --no-install-recommends install \
         # Command-line editor
         nano \
         # Ping network tools

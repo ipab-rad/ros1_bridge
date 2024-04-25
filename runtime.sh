@@ -13,8 +13,8 @@ fi
 
 # Build docker image only up to base stage
 DOCKER_BUILDKIT=1 docker build \
--t av_bridge_noetic_galactic \
--f Dockerfile --target runtime .
+    -t av_bridge_noetic_galactic \
+    -f Dockerfile --target runtime .
 
 # Run docker image without volumes
 docker run -it --rm --net host --privileged \
