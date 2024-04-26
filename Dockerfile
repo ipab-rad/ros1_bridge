@@ -1,5 +1,12 @@
 FROM ros:noetic-ros-base-focal AS base
 
+# Switch to much faster mirror for apt processes
+ENV OLD_MIRROR archive.ubuntu.com
+ENV SEC_MIRROR security.ubuntu.com
+ENV NEW_MIRROR mirror.bytemark.co.uk
+
+RUN sed -i "s/$OLD_MIRROR\|$SEC_MIRROR/$NEW_MIRROR/g" /etc/apt/sources.list
+
 # Install basic dev tools (And clean apt cache afterwards)
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
@@ -13,7 +20,8 @@ RUN apt-get update \
 
 # Follow instructions for ROS2 installation
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo "$UBUNTU_CODENAME") main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
 # Install ROS2 main debs
 RUN apt-get update \
@@ -69,12 +77,11 @@ COPY CMakeLists.txt package.xml $BRIDGE_WS/src/ros1_bridge/
 
 # Source ROS setup for dependencies and build our code
 WORKDIR $BRIDGE_WS
-RUN . $ROS1_WS/devel/setup.sh && \
-    . $ROS2_WS/install/setup.sh && \
+RUN . "$ROS1_WS"/devel/setup.sh && \
+    . "$ROS2_WS"/install/setup.sh && \
     BUILD_WORKERS=$(($(nproc) - 2)) && \
-    colcon build --executor parallel --parallel-workers $BUILD_WORKERS \
+    colcon build --executor parallel --parallel-workers "$BUILD_WORKERS" \
     --cmake-force-configure --cmake-args -DCMAKE_BUILD_TYPE=Release
-
 
 # Add command to docker entrypoint to source newly compiled code when running docker container
 RUN sed --in-place --expression \
