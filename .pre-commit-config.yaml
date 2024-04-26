@@ -176,7 +176,8 @@ repos:
     rev: v2.12.1-beta
     hooks:
       - id: hadolint
-        args: ['--ignore=DL3008']
+        # SC1091 - Ignore "File not included in mock"
+        args: ['--ignore=DL3008', '--ignore=SC1091']
 
 ci:
     autofix_commit_msg: |
