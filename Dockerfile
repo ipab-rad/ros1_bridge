@@ -89,7 +89,7 @@ RUN sed --in-place --expression \
       /ros_entrypoint.sh
 
 # launch ros package
-CMD ["ros2", "run", "ros1_bridge", "dynamic_bridge"]
+CMD ["ros2", "run", "ros1_bridge", "dynamic_bridge", "--bridge-all-1to2-topics"]
 
 # -----------------------------------------------------------------------
 
