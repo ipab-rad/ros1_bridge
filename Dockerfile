@@ -31,6 +31,7 @@ RUN apt-get update \
         apt-get -y --quiet --no-install-recommends install \
         ros-galactic-ros-base \
         ros-dev-tools \
+        ros-galactic-rmw-cyclonedds-cpp \
     && rm -rf /var/lib/apt/lists/*
 
 # Setup ROS1 environment variables [For AV server]
@@ -42,6 +43,9 @@ ENV ROS1_WS /opt/ros1_msgs_ws
 
 # Setup ROS2 msgs workspace folder
 ENV ROS2_WS /opt/ros2_msgs_ws
+
+# Set cyclone DDS ROS RMW
+ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 # Setup ROS1-2 bridge workspace
 ENV BRIDGE_WS /opt/ros1_bridge_ws
