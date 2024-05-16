@@ -46,6 +46,8 @@ ENV ROS2_WS /opt/ros2_msgs_ws
 
 # Set cyclone DDS ROS RMW
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+COPY ./cyclone_dds.xml $ROS_WS/
+ENV CYCLONEDDS_URI=file://${ROS_WS}/cyclone_dds.xml
 
 # Setup ROS1-2 bridge workspace
 ENV BRIDGE_WS /opt/ros1_bridge_ws
