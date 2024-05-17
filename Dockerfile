@@ -52,6 +52,9 @@ ENV CYCLONEDDS_URI=file:///opt/ros/cyclone_dds.xml
 # Setup ROS1-2 bridge workspace
 ENV BRIDGE_WS /opt/ros1_bridge_ws
 
+# Enable ROS log colorised output
+ENV RCUTILS_COLORIZED_OUTPUT=1
+
 # -----------------------------------------------------------------------
 
 FROM base AS runtime
