@@ -11,6 +11,7 @@ DOCKER_BUILDKIT=1 docker build \
 # Run docker image with local code volumes for development
 docker run -it --rm --net host --privileged \
     -v /dev/shm:/dev/shm \
+    -v /etc/localtime:/etc/localtime:ro \
     -v ./ecal_to_ros/ros1:/opt/ros1_msgs_ws/src/ecal_to_ros \
     -v ./ecal_to_ros/ros2:/opt/ros2_msgs_ws/src/ecal_to_ros \
     -v ./bin:/opt/ros1_bridge_ws/src/ros1_bridge/bin \
