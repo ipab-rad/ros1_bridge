@@ -5,12 +5,13 @@
 
 # Build docker image up to dev stage
 DOCKER_BUILDKIT=1 docker build \
-    -t av_ros1_bridge:latest \
+    -t av_ros1_bridge:latest-dev \
     -f Dockerfile --target dev .
 
 # Run docker image with local code volumes for development
 docker run -it --rm --net host --privileged \
     -v /dev/shm:/dev/shm \
+    -v /etc/localtime:/etc/localtime:ro \
     -v ./ecal_to_ros/ros1:/opt/ros1_msgs_ws/src/ecal_to_ros \
     -v ./ecal_to_ros/ros2:/opt/ros2_msgs_ws/src/ecal_to_ros \
     -v ./bin:/opt/ros1_bridge_ws/src/ros1_bridge/bin \
@@ -22,4 +23,4 @@ docker run -it --rm --net host --privileged \
     -v ./test:/opt/ros1_bridge_ws/src/ros1_bridge/test \
     -v ./CMakeLists.txt:/opt/ros1_bridge_ws/src/ros1_bridge/CMakeLists.txt \
     -v ./package.xml:/opt/ros1_bridge_ws/src/ros1_bridge/package.xml \
-    av_ros1_bridge:latest
+    av_ros1_bridge:latest-dev
