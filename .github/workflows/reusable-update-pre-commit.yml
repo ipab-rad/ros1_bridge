@@ -76,7 +76,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: auto-update-${{ github.event.inputs.ref_for_scheduled_build }}
-          base: main
+          base: master
           commit-message: |
             Bump version of pre-commit hooks
 
